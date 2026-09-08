@@ -7,21 +7,24 @@ from datetime import datetime, timedelta
 import firebase_admin
 from firebase_admin import credentials, db
 import os
+import json
 import glob
 
 # --- FIREBASE CONNECTION ---
-# (Kept your local desktop logic so it works on your machine right now)
+# --- FIREBASE CONNECTION ---
 if not firebase_admin._apps:
-    desktop_path = r"C:\Users\Anthony\Desktop"
-    json_files = glob.glob(os.path.join(desktop_path, "*.json"))
-    if not json_files:
-        st.error("⚠️ No Firebase key file found on Desktop! Please place your JSON key there.")
+    try:
+        # Read the JSON string from Streamlit Secrets
+        key_dict = json.loads(st.secrets["firebase_key"])
+        
+        # Initialize Firebase with the secret key
+        cred = credentials.Certificate(key_dict)
+        firebase_admin.initialize_app(cred, {
+            'databaseURL': 'https://barbados-solar-sept226-default-rtdb.firebaseio.com/'
+        })
+    except Exception as e:
+        st.error(f"Error connecting to database: {e}")
         st.stop()
-    key_path = json_files[0]
-    cred = credentials.Certificate(key_path)
-    firebase_admin.initialize_app(cred, {
-        'databaseURL': 'https://barbados-solar-sept226-default-rtdb.firebaseio.com/'
-    })
 
 # --- SAVE FUNCTION ---
 def save_daily_data_to_cloud(client_id, daily_summary, hourly_data):
