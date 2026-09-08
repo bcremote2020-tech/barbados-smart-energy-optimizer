@@ -65,4 +65,6 @@ st.sidebar.markdown("---")
 demo_profiles = {
     "Select a Demo Profile...": {"solar": 5.0, "bess": 10.0, "bess_pct": 80, "ev": 60.0, "ev_pct": 30},
     "Residential Home": {"solar": 10.0, "bess": 15.0, "bess_pct": 50, "ev": 75.0, "ev_pct": 20},
-    "Boutique Hotel (West Coast)": {"solar": 50.0, "bess
+    "Boutique Hotel": {"solar": 50.0, "bess": 100.0, "bess_pct": 80, "ev": 200.0, "ev_pct": 40},
+    "Taxi Cooperative": {"solar": 30.0, "bess": 200.0, "bess_pct": 90, "ev": 600.0, "ev_pct": 15}
+}
