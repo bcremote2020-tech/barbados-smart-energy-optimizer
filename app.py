@@ -13,10 +13,21 @@ import glob
 # --- FIREBASE CONNECTION ---
 if not firebase_admin._apps:
     try:
-        # Read the JSON string from Streamlit Secrets and parse it correctly
-        key_dict = json.loads(st.secrets["firebase_key"])
+        # Get Firebase config from Streamlit Secrets (TOML format)
+        key_dict = {
+            "type": st.secrets["firebase"]["type"],
+            "project_id": st.secrets["firebase"]["project_id"],
+            "private_key_id": st.secrets["firebase"]["private_key_id"],
+            "private_key": st.secrets["firebase"]["private_key"],
+            "client_email": st.secrets["firebase"]["client_email"],
+            "client_id": st.secrets["firebase"]["client_id"],
+            "auth_uri": st.secrets["firebase"]["auth_uri"],
+            "token_uri": st.secrets["firebase"]["token_uri"],
+            "auth_provider_x509_cert_url": st.secrets["firebase"]["auth_provider_x509_cert_url"],
+            "client_x509_cert_url": st.secrets["firebase"]["client_x509_cert_url"]
+        }
         
-        # Initialize Firebase with the secret key
+        # Initialize Firebase
         cred = credentials.Certificate(key_dict)
         firebase_admin.initialize_app(cred, {
             'databaseURL': 'https://barbados-solar-sept226-default-rtdb.firebaseio.com/'
