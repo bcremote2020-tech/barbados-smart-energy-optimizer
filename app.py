@@ -11,11 +11,11 @@ import json
 import glob
 
 # --- FIREBASE CONNECTION ---
-# --- FIREBASE CONNECTION ---
 if not firebase_admin._apps:
     try:
         # Read the JSON string from Streamlit Secrets
-        key_dict = json.loads(st.secrets["firebase_key"])
+        firebase_config = st.secrets["firebase_key"]
+        key_dict = dict(firebase_config)
         
         # Initialize Firebase with the secret key
         cred = credentials.Certificate(key_dict)
